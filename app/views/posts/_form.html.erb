@@ -1,1 +1,24 @@
+<!--
+form should include check boxes for us to select categories as well as a text field to create a new category
+  do this with a nested form
 
+also, typing in Category name that already exists should not create a new category
+    should be able to select it from the database and associate the post we've created with that category
+ -->
+
+ <%= form_for post do |f| %>
+
+     <%= f.label "Title" %>
+     <%= f.text_field :title %>
+
+     <%= f.label "Content" %>
+     <%= f.text_area :content %>
+
+     <%= f.collection_check_boxes(:category_ids, Category.all, :id, :name) %>
+
+     <%= f.fields_for :categories, post.categories.build do |categories_attributes| %>
+        <%= categories_attributes.text_field :name %>
+     <% end %>
+
+     <%= f.submit "Create Post" %>
+ <% end %>
